@@ -52,7 +52,12 @@ function updateCartCount() {
 
 // CART NOTIFICATION
 
-function showCartNotification(name, size, quantity) {
+function showCartNotification(
+    name,
+    size,
+    quantity,
+    isError = false
+) {
 
     const oldNotification =
         document.getElementById("cart-notification");
@@ -61,101 +66,50 @@ function showCartNotification(name, size, quantity) {
         oldNotification.remove();
     }
 
-    const isError =
-        name === "PLEASE SELECT A SIZE";
-
     const notification =
         document.createElement("div");
 
     notification.id =
         "cart-notification";
 
-    notification.innerHTML = `
-        <div class="cart-notification-icon">
-            ${isError ? "!" : "✓"}
-        </div>
+    if (isError) {
 
-        <div class="cart-notification-content">
+        notification.innerHTML = `
+            <div class="cart-notification-icon">
+                !
+            </div>
 
-            <strong>
-                ${isError ? "SIZE REQUIRED" : "ADDED TO CART"}
-            </strong>
+            <div class="cart-notification-content">
+                <strong>SIZE REQUIRED</strong>
+                <span>Please choose a size before adding to cart.</span>
+            </div>
+        `;
 
-            <span>
-                ${isError
-                    ? "Please choose a size before adding this item."
-                    : name}
-            </span>
+    } else {
 
-            ${
-                isError
-                    ? ""
-                    : `<small>Size ${size} • Qty ${quantity}</small>`
-            }
+        notification.innerHTML = `
+            <div class="cart-notification-icon">
+                ✓
+            </div>
 
-        </div>
+            <div class="cart-notification-content">
+                <strong>ADDED TO CART</strong>
+                <span>${name}</span>
+                <small>Size ${size} • Qty ${quantity}</small>
+            </div>
 
-        ${
-            isError
-                ? ""
-                : `<a href="cart.html" class="cart-notification-button">
-                    VIEW CART
-                   </a>`
-        }
-    `;
-
-    document.body.appendChild(
-        notification
-    );
-
-    setTimeout(() => {
-        notification.classList.add("show");
-    }, 10);
-
-    setTimeout(() => {
-
-        notification.classList.remove("show");
-
-        setTimeout(() => {
-            notification.remove();
-        }, 500);
-
-    }, 3000);
-}
-
-
-    // Create notification
-    const notification =
-        document.createElement("div");
-
-    notification.id =
-        "cart-notification";
-
-    notification.innerHTML = `
-        <div class="cart-notification-icon">
-            ✓
-        </div>
-
-        <div class="cart-notification-content">
-            <strong>ADDED TO CART</strong>
-            <span>${name}</span>
-            <small>Size ${size} • Qty ${quantity}</small>
-        </div>
-
-        <a
-            href="cart.html"
-            class="cart-notification-button">
-            VIEW CART
-        </a>
-    `;
-
+            <a
+                href="cart.html"
+                class="cart-notification-button">
+                VIEW CART
+            </a>
+        `;
+    }
 
     document.body.appendChild(
         notification
     );
 
-
-    // Small delay so the animation can start
     setTimeout(() => {
 
         notification.classList.add(
@@ -164,8 +118,6 @@ function showCartNotification(name, size, quantity) {
 
     }, 10);
 
-
-    // Remove after 3 seconds
     setTimeout(() => {
 
         notification.classList.remove(
@@ -174,7 +126,9 @@ function showCartNotification(name, size, quantity) {
 
         setTimeout(() => {
 
-            notification.remove();
+            if (notification.parentNode) {
+                notification.remove();
+            }
 
         }, 500);
 
@@ -191,9 +145,10 @@ function addToCart(
     quantity = 1
 ) {
 
-    const existingItem = cart.find(item =>
-        item.name === name &&
-        item.size === size
+    const existingItem = cart.find(
+        item =>
+            item.name === name &&
+            item.size === size
     );
 
     if (existingItem) {
@@ -211,9 +166,9 @@ function addToCart(
     }
 
     saveCart();
+
     updateCartCount();
 
-    // NEW ANIMATED NOTIFICATION
     showCartNotification(
         name,
         size,
@@ -297,9 +252,14 @@ function displayCart() {
             </div>
         `;
 
-        document.getElementById(
-            "cart-total"
-        ).textContent = "0.00";
+        const cartTotal =
+            document.getElementById(
+                "cart-total"
+            );
+
+        if (cartTotal) {
+            cartTotal.textContent = "0.00";
+        }
 
         const bottomTotal =
             document.getElementById(
@@ -407,10 +367,15 @@ function displayCart() {
     );
 
 
-    document.getElementById(
-        "cart-total"
-    ).textContent =
-        total.toFixed(2);
+    const cartTotal =
+        document.getElementById(
+            "cart-total"
+        );
+
+    if (cartTotal) {
+        cartTotal.textContent =
+            total.toFixed(2);
+    }
 
 
     const bottomTotal =
@@ -515,16 +480,17 @@ function loadProductPage() {
             );
 
 
-       if (!size) {
+        if (!size) {
 
-    showCartNotification(
-        "PLEASE SELECT A SIZE",
-        "Choose a size before adding to cart.",
-        ""
-    );
+            showCartNotification(
+                "",
+                "",
+                "",
+                true
+            );
 
-    return;
-}
+            return;
+        }
 
 
         addToCart(
@@ -566,20 +532,23 @@ function setupShopButtons() {
                         button.dataset.size
                     );
 
+                if (!sizeSelect) return;
+
                 const size =
                     sizeSelect.value;
 
 
-if (!size) {
+                if (!size) {
 
-    showCartNotification(
-        "PLEASE SELECT A SIZE",
-        "Choose a size before adding to cart.",
-        ""
-    );
+                    showCartNotification(
+                        "",
+                        "",
+                        "",
+                        true
+                    );
 
-    return;
-}
+                    return;
+                }
 
 
                 addToCart(
