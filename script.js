@@ -50,6 +50,77 @@ function updateCartCount() {
 }
 
 
+// CART NOTIFICATION
+
+function showCartNotification(name, size, quantity) {
+
+    // Remove any existing notification
+    const oldNotification =
+        document.getElementById("cart-notification");
+
+    if (oldNotification) {
+        oldNotification.remove();
+    }
+
+
+    // Create notification
+    const notification =
+        document.createElement("div");
+
+    notification.id =
+        "cart-notification";
+
+    notification.innerHTML = `
+        <div class="cart-notification-icon">
+            ✓
+        </div>
+
+        <div class="cart-notification-content">
+            <strong>ADDED TO CART</strong>
+            <span>${name}</span>
+            <small>Size ${size} • Qty ${quantity}</small>
+        </div>
+
+        <a
+            href="cart.html"
+            class="cart-notification-button">
+            VIEW CART
+        </a>
+    `;
+
+
+    document.body.appendChild(
+        notification
+    );
+
+
+    // Small delay so the animation can start
+    setTimeout(() => {
+
+        notification.classList.add(
+            "show"
+        );
+
+    }, 10);
+
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+
+        notification.classList.remove(
+            "show"
+        );
+
+        setTimeout(() => {
+
+            notification.remove();
+
+        }, 500);
+
+    }, 3000);
+}
+
+
 // ADD TO CART
 
 function addToCart(
@@ -81,9 +152,11 @@ function addToCart(
     saveCart();
     updateCartCount();
 
-    alert(
-        name +
-        " added to your cart!"
+    // NEW ANIMATED NOTIFICATION
+    showCartNotification(
+        name,
+        size,
+        quantity
     );
 }
 
@@ -164,17 +237,17 @@ function displayCart() {
         `;
 
         document.getElementById(
-    "cart-total"
-).textContent = "0.00";
+            "cart-total"
+        ).textContent = "0.00";
 
-const bottomTotal =
-    document.getElementById(
-        "cart-total-bottom"
-    );
+        const bottomTotal =
+            document.getElementById(
+                "cart-total-bottom"
+            );
 
-if (bottomTotal) {
-    bottomTotal.textContent = "0.00";
-}
+        if (bottomTotal) {
+            bottomTotal.textContent = "0.00";
+        }
 
         return;
     }
@@ -273,20 +346,21 @@ if (bottomTotal) {
     );
 
 
-  document.getElementById(
-    "cart-total"
-).textContent =
-    total.toFixed(2);
-
-const bottomTotal =
     document.getElementById(
-        "cart-total-bottom"
-    );
-
-if (bottomTotal) {
-    bottomTotal.textContent =
+        "cart-total"
+    ).textContent =
         total.toFixed(2);
-}
+
+
+    const bottomTotal =
+        document.getElementById(
+            "cart-total-bottom"
+        );
+
+    if (bottomTotal) {
+        bottomTotal.textContent =
+            total.toFixed(2);
+    }
 }
 
 
@@ -359,6 +433,9 @@ function loadProductPage() {
         document.getElementById(
             "product-add-cart"
         );
+
+
+    if (!addButton) return;
 
 
     addButton.onclick = () => {
