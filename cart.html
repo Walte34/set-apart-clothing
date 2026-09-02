@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cart — SET APART</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+    <a href="index.html" class="logo">
+        SET APART
+    </a>
+
+    <nav>
+    <a href="index.html">HOME</a>
+    <a href="shop.html">SHOP</a>
+    <a href="index.html#story">ABOUT</a>
+
+    <div class="nav-dropdown">
+        <button class="nav-drop-button">
+            HELP <span>▾</span>
+        </button>
+
+        <div class="nav-dropdown-menu">
+            <a href="faq.html">FAQ</a>
+            <a href="size-guide.html">SIZE GUIDE</a>
+            <a href="shipping.html">SHIPPING & RETURNS</a>
+        </div>
+    </div>
+
+    <a href="cart.html">
+        CART <span id="cart-count">0</span>
+    </a>
+</nav>
+
+</header>
+
+
+<main class="cart-page">
+
+    <div class="cart-header">
+
+        <div class="small-text">
+            SET APART CLOTHING
+        </div>
+
+        <h1>
+            YOUR CART
+        </h1>
+
+        <p>
+            Review your order before checkout.
+        </p>
+
+    </div>
+
+
+    <div class="cart-layout">
+
+        <section>
+
+            <div id="cart-items"></div>
+
+        </section>
+
+
+        <aside class="cart-summary">
+
+            <div class="summary-top">
+
+                <span>
+                    ORDER SUMMARY
+                </span>
+
+            </div>
+
+            <div class="summary-line">
+                <span>Subtotal</span>
+
+                <strong>
+                    $<span id="cart-total">0.00</span>
+                </strong>
+            </div>
+
+
+            <div class="summary-line">
+                <span>Shipping</span>
+
+                <span>
+                    Calculated at checkout
+                </span>
+            </div>
+
+
+            <div class="summary-divider"></div>
+
+
+            <div class="summary-total">
+
+                <span>
+                    TOTAL
+                </span>
+
+                <strong>
+                    $<span id="cart-total-bottom">0.00</span>
+                </strong>
+
+            </div>
+
+
+            <button
+                id="checkout-button"
+                class="checkout-button">
+
+                CHECKOUT
+                <span>→</span>
+
+            </button>
+
+
+            <a
+                href="shop.html"
+                class="continue-shopping">
+
+                ← CONTINUE SHOPPING
+
+            </a>
+
+
+            <div class="secure-checkout">
+
+                <span>✓</span>
+
+                <p>
+                    Secure checkout coming soon
+                </p>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <div class="logo">
+        SET APART
+    </div>
+
+    <p>
+        © 2026 SET APART CLOTHING.
+        ALL RIGHTS RESERVED.
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
