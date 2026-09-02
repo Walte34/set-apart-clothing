@@ -1,4 +1,6 @@
+// =========================================
 // SET APART CLOTHING
+// =========================================
 
 let cart = JSON.parse(localStorage.getItem("setApartCart")) || [];
 
@@ -21,7 +23,9 @@ const products = {
 };
 
 
+// =========================================
 // SAVE CART
+// =========================================
 
 function saveCart() {
     localStorage.setItem(
@@ -31,26 +35,29 @@ function saveCart() {
 }
 
 
-// UPDATE CART NUMBER
+// =========================================
+// UPDATE CART COUNT
+// =========================================
 
 function updateCartCount() {
 
-    const count =
+    const cartCount =
         document.getElementById("cart-count");
 
-    if (!count) return;
+    if (!cartCount) return;
 
     const totalItems = cart.reduce(
-        (total, item) =>
-            total + item.quantity,
+        (total, item) => total + item.quantity,
         0
     );
 
-    count.textContent = totalItems;
+    cartCount.textContent = totalItems;
 }
 
 
+// =========================================
 // CART NOTIFICATION
+// =========================================
 
 function showCartNotification(
     name,
@@ -69,8 +76,7 @@ function showCartNotification(
     const notification =
         document.createElement("div");
 
-    notification.id =
-        "cart-notification";
+    notification.id = "cart-notification";
 
     if (isError) {
 
@@ -106,23 +112,15 @@ function showCartNotification(
         `;
     }
 
-    document.body.appendChild(
-        notification
-    );
+    document.body.appendChild(notification);
 
     setTimeout(() => {
-
-        notification.classList.add(
-            "show"
-        );
-
+        notification.classList.add("show");
     }, 10);
 
     setTimeout(() => {
 
-        notification.classList.remove(
-            "show"
-        );
+        notification.classList.remove("show");
 
         setTimeout(() => {
 
@@ -136,7 +134,9 @@ function showCartNotification(
 }
 
 
+// =========================================
 // ADD TO CART
+// =========================================
 
 function addToCart(
     name,
@@ -144,6 +144,19 @@ function addToCart(
     size,
     quantity = 1
 ) {
+
+    if (!size) {
+
+        showCartNotification(
+            "",
+            "",
+            "",
+            true
+        );
+
+        return;
+    }
+
     const existingItem = cart.find(
         item =>
             item.name === name &&
@@ -151,8 +164,11 @@ function addToCart(
     );
 
     if (existingItem) {
+
         existingItem.quantity += quantity;
+
     } else {
+
         cart.push({
             name: name,
             price: price,
@@ -172,17 +188,11 @@ function addToCart(
 }
 
 
+// =========================================
 // REMOVE ITEM
+// =========================================
 
 function removeFromCart(index) {
-    cart.splice(index, 1);
-
-    saveCart();
-
-    displayCart();
-
-    updateCartCount();
-}
 
     cart.splice(index, 1);
 
@@ -194,18 +204,20 @@ function removeFromCart(index) {
 }
 
 
+// =========================================
 // CHANGE QUANTITY
+// =========================================
 
 function changeQuantity(
     index,
     amount
 ) {
 
+    if (!cart[index]) return;
+
     cart[index].quantity += amount;
 
-    if (
-        cart[index].quantity <= 0
-    ) {
+    if (cart[index].quantity <= 0) {
         cart.splice(index, 1);
     }
 
@@ -217,14 +229,14 @@ function changeQuantity(
 }
 
 
+// =========================================
 // DISPLAY CART
+// =========================================
 
 function displayCart() {
 
     const container =
-        document.getElementById(
-            "cart-items"
-        );
+        document.getElementById("cart-items");
 
     if (!container) return;
 
@@ -233,9 +245,7 @@ function displayCart() {
         container.innerHTML = `
             <div class="empty-cart">
 
-                <h2>
-                    Your cart is empty.
-                </h2>
+                <h2>Your cart is empty.</h2>
 
                 <p>
                     Find something you love
@@ -247,18 +257,14 @@ function displayCart() {
                 <a
                     href="shop.html"
                     class="button">
-
                     SHOP NOW
-
                 </a>
 
             </div>
         `;
 
         const cartTotal =
-            document.getElementById(
-                "cart-total"
-            );
+            document.getElementById("cart-total");
 
         if (cartTotal) {
             cartTotal.textContent = "0.00";
@@ -276,110 +282,80 @@ function displayCart() {
         return;
     }
 
-
     let total = 0;
 
     container.innerHTML = "";
 
+    cart.forEach((item, index) => {
 
-    cart.forEach(
-        (item, index) => {
+        const itemTotal =
+            item.price * item.quantity;
 
-            const itemTotal =
-                item.price *
-                item.quantity;
+        total += itemTotal;
 
-            total += itemTotal;
+        const itemElement =
+            document.createElement("div");
 
+        itemElement.className = "cart-item";
 
-            const itemElement =
-                document.createElement(
-                    "div"
-                );
+        itemElement.innerHTML = `
+            <div class="cart-item-info">
 
-            itemElement.className =
-                "cart-item";
+                <h3>
+                    ${item.name}
+                </h3>
 
+                <p>
+                    Size: ${item.size}
+                </p>
 
-            itemElement.innerHTML = `
+                <p>
+                    $${item.price.toFixed(2)} each
+                </p>
 
-                <div class="cart-item-info">
+            </div>
 
-                    <h3>
-                        ${item.name}
-                    </h3>
+            <div class="cart-item-actions">
 
-                    <p>
-                        Size: ${item.size}
-                    </p>
+                <button
+                    class="quantity-button"
+                    onclick="changeQuantity(${index}, -1)">
+                    −
+                </button>
 
-                    <p>
-                        $${item.price.toFixed(2)}
-                        each
-                    </p>
+                <span>
+                    ${item.quantity}
+                </span>
 
-                </div>
+                <button
+                    class="quantity-button"
+                    onclick="changeQuantity(${index}, 1)">
+                    +
+                </button>
 
+                <strong>
+                    $${itemTotal.toFixed(2)}
+                </strong>
 
-                <div class="cart-item-actions">
+                <button
+                    class="remove-button"
+                    onclick="removeFromCart(${index})">
+                    Remove
+                </button>
 
-                    <button
-                        class="quantity-button"
-                        onclick="changeQuantity(${index}, -1)">
+            </div>
+        `;
 
-                        −
-
-                    </button>
-
-
-                    <span>
-                        ${item.quantity}
-                    </span>
-
-
-                    <button
-                        class="quantity-button"
-                        onclick="changeQuantity(${index}, 1)">
-
-                        +
-
-                    </button>
-
-
-                    <strong>
-                        $${itemTotal.toFixed(2)}
-                    </strong>
-
-
-                    <button
-                        class="remove-button"
-                        onclick="removeFromCart(${index})">
-
-                        Remove
-
-                    </button>
-
-                </div>
-            `;
-
-
-            container.appendChild(
-                itemElement
-            );
-        }
-    );
-
+        container.appendChild(itemElement);
+    });
 
     const cartTotal =
-        document.getElementById(
-            "cart-total"
-        );
+        document.getElementById("cart-total");
 
     if (cartTotal) {
         cartTotal.textContent =
             total.toFixed(2);
     }
-
 
     const bottomTotal =
         document.getElementById(
@@ -393,58 +369,55 @@ function displayCart() {
 }
 
 
+// =========================================
 // LOAD PRODUCT PAGE
+// =========================================
 
 function loadProductPage() {
 
-    const name =
-        document.getElementById(
-            "product-name"
-        );
+    const productName =
+        document.getElementById("product-name");
 
-    if (!name) return;
-
+    if (!productName) return;
 
     const params =
         new URLSearchParams(
             window.location.search
         );
 
-
     const productID =
-        params.get("product") ||
-        "fear-not";
-
+        params.get("product") || "fear-not";
 
     const product =
         products[productID];
 
-
     if (!product) return;
 
-
     document.title =
-        product.name +
-        " — SET APART";
+        product.name + " — SET APART";
 
-
-    document.getElementById(
-        "product-name"
-    ).textContent =
+    productName.textContent =
         product.name;
 
+    const imageText =
+        document.getElementById(
+            "product-image-text"
+        );
 
-    document.getElementById(
-        "product-image-text"
-    ).textContent =
-        product.imageText;
+    if (imageText) {
+        imageText.textContent =
+            product.imageText;
+    }
 
+    const description =
+        document.getElementById(
+            "product-description"
+        );
 
-    document.getElementById(
-        "product-description"
-    ).textContent =
-        product.description;
-
+    if (description) {
+        description.textContent =
+            product.description;
+    }
 
     const price =
         document.querySelector(
@@ -453,60 +426,64 @@ function loadProductPage() {
 
     if (price) {
         price.textContent =
-            "$" +
-            product.price;
+            "$" + product.price;
     }
-
 
     const addButton =
         document.getElementById(
             "product-add-cart"
         );
 
-
-    if (!addButton) return;
-
-
-    addButton.onclick = () => {
-
-        const size =
-            document.getElementById(
-                "product-size"
-            ).value;
-
-
-        const quantity =
-            Number(
-                document.getElementById(
-                    "product-quantity"
-                ).value
-            );
-
-
-        if (!size) {
-
-            showCartNotification(
-                "",
-                "",
-                "",
-                true
-            );
-
-            return;
-        }
-
-
-        addToCart(
-            product.name,
-            product.price,
-            size,
-            quantity
+    const sizeSelect =
+        document.getElementById(
+            "product-size"
         );
-    };
+
+    const quantitySelect =
+        document.getElementById(
+            "product-quantity"
+        );
+
+    if (!addButton || !sizeSelect || !quantitySelect) {
+        return;
+    }
+
+    addButton.addEventListener(
+        "click",
+        function () {
+
+            const size =
+                sizeSelect.value;
+
+            const quantity =
+                Number(quantitySelect.value);
+
+            if (!size) {
+
+                showCartNotification(
+                    "",
+                    "",
+                    "",
+                    true
+                );
+
+                return;
+            }
+
+            addToCart(
+                product.name,
+                product.price,
+                size,
+                quantity
+            );
+        }
+    );
 }
 
 
+// =========================================
 // SHOP PAGE BUTTONS
+// =========================================
 
 function setupShopButtons() {
 
@@ -515,12 +492,11 @@ function setupShopButtons() {
             ".add-cart"
         );
 
-
     buttons.forEach(button => {
 
         button.addEventListener(
             "click",
-            () => {
+            function () {
 
                 const name =
                     button.dataset.name;
@@ -540,7 +516,6 @@ function setupShopButtons() {
                 const size =
                     sizeSelect.value;
 
-
                 if (!size) {
 
                     showCartNotification(
@@ -553,11 +528,11 @@ function setupShopButtons() {
                     return;
                 }
 
-
                 addToCart(
                     name,
                     price,
-                    size
+                    size,
+                    1
                 );
             }
         );
@@ -565,22 +540,22 @@ function setupShopButtons() {
 }
 
 
+// =========================================
 // CHECKOUT
+// =========================================
 
 function setupCheckout() {
 
-    const button =
+    const checkoutButton =
         document.getElementById(
             "checkout-button"
         );
 
+    if (!checkoutButton) return;
 
-    if (!button) return;
-
-
-    button.addEventListener(
+    checkoutButton.addEventListener(
         "click",
-        () => {
+        function () {
 
             if (cart.length === 0) {
 
@@ -591,7 +566,6 @@ function setupCheckout() {
                 return;
             }
 
-
             alert(
                 "Checkout will be connected to a secure payment system next!"
             );
@@ -600,11 +574,13 @@ function setupCheckout() {
 }
 
 
+// =========================================
 // START EVERYTHING
+// =========================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    function () {
 
         updateCartCount();
 
