@@ -2,25 +2,72 @@
 // SET APART CLOTHING
 // =========================================
 
-let cart = JSON.parse(localStorage.getItem("setApartCart")) || [];
+
+// CART
+
+let cart =
+    JSON.parse(
+        localStorage.getItem("setApartCart")
+    ) || [];
+
+
+// PRODUCTS
 
 const products = {
+
     "fear-not": {
+
         name: "FEAR NOT TEE",
+
         price: 30,
-        imageText: "FEAR NOT",
+
+        backImage:
+            "images1/fear-not-back.png",
+
+        frontImage:
+            "images1/fear-not-front.png",
+
         description:
-            "A faith-driven heavyweight tee inspired by Isaiah 41:10. Designed as a reminder to stand firm, trust God, and walk boldly."
+            "A faith-driven heavyweight tee inspired by Isaiah 41:10. Designed as a reminder to stand firm, trust God, and walk boldly.",
+
+        messageTitle:
+            "FEAR<br><span>NOT.</span>",
+
+        messageQuote:
+            "“Do not fear, for I am with you.”",
+
+        messageReference:
+            "ISAIAH 41:10"
     },
 
+
     "armor-of-god": {
+
         name: "ARMOR OF GOD TEE",
+
         price: 30,
-        imageText: "ARMOR OF GOD",
+
+        backImage:
+            "images1/armor-back.webp",
+
+        frontImage:
+            "images1/armor-front.webp",
+
         description:
-            "A heavyweight streetwear tee inspired by Ephesians 6. A reminder to stand firm in faith and put on the armor of God."
+            "A heavyweight streetwear tee inspired by Ephesians 6:11. Designed as a reminder to stand firm in faith and put on the whole armor of God.",
+
+        messageTitle:
+            "ARMOR<br><span>OF GOD.</span>",
+
+        messageQuote:
+            "“Put on the full armor of God.”",
+
+        messageReference:
+            "EPHESIANS 6:11"
     }
+
 };
+
 
 
 // =========================================
@@ -36,26 +83,67 @@ function saveCart() {
 }
 
 
+
 // =========================================
-// UPDATE CART NUMBER
+// UPDATE CART COUNT
 // =========================================
 
 function updateCartCount() {
 
-    const count =
-        document.getElementById("cart-count");
+    const cartCount =
+        document.getElementById(
+            "cart-count"
+        );
 
-    if (!count) return;
+
+    if (!cartCount) return;
+
 
     const totalItems =
         cart.reduce(
+
             (total, item) =>
                 total + item.quantity,
+
             0
+
         );
 
-    count.textContent = totalItems;
+
+    cartCount.textContent =
+        totalItems;
 }
+
+
+
+// =========================================
+// CART COUNT ANIMATION
+// =========================================
+
+function animateCartCount() {
+
+    const cartCount =
+        document.getElementById(
+            "cart-count"
+        );
+
+
+    if (!cartCount) return;
+
+
+    cartCount.classList.remove(
+        "cart-count-pop"
+    );
+
+
+    void cartCount.offsetWidth;
+
+
+    cartCount.classList.add(
+        "cart-count-pop"
+    );
+}
+
 
 
 // =========================================
@@ -69,27 +157,27 @@ function addToCart(
     quantity = 1
 ) {
 
-    // Make sure a size was selected
-    if (!size) {
-        return;
-    }
+    if (!size) return;
 
-
-    // Check if this exact product + size
-    // is already in the cart
 
     const existingItem =
-        cart.find(item =>
-            item.name === name &&
-            item.size === size
+        cart.find(
+
+            item =>
+                item.name === name &&
+                item.size === size
+
         );
 
 
     if (existingItem) {
 
-        existingItem.quantity += quantity;
+        existingItem.quantity +=
+            quantity;
 
-    } else {
+    }
+
+    else {
 
         cart.push({
 
@@ -102,47 +190,33 @@ function addToCart(
             quantity: quantity
 
         });
+
     }
 
 
-    // Save cart
     saveCart();
 
-
-    // Update number in navigation
     updateCartCount();
 
-
-    // Animate cart number
-    const cartCount =
-        document.getElementById(
-            "cart-count"
-        );
-
-    if (cartCount) {
-
-        cartCount.classList.remove(
-            "cart-count-pop"
-        );
-
-        void cartCount.offsetWidth;
-
-        cartCount.classList.add(
-            "cart-count-pop"
-        );
-    }
+    animateCartCount();
 }
 
 
+
 // =========================================
-// REMOVE ITEM
+// REMOVE FROM CART
 // =========================================
 
 function removeFromCart(index) {
 
     if (!cart[index]) return;
 
-    cart.splice(index, 1);
+
+    cart.splice(
+        index,
+        1
+    );
+
 
     saveCart();
 
@@ -150,6 +224,7 @@ function removeFromCart(index) {
 
     updateCartCount();
 }
+
 
 
 // =========================================
@@ -164,12 +239,19 @@ function changeQuantity(
     if (!cart[index]) return;
 
 
-    cart[index].quantity += amount;
+    cart[index].quantity +=
+        amount;
 
 
-    if (cart[index].quantity <= 0) {
+    if (
+        cart[index].quantity <= 0
+    ) {
 
-        cart.splice(index, 1);
+        cart.splice(
+            index,
+            1
+        );
+
     }
 
 
@@ -179,6 +261,7 @@ function changeQuantity(
 
     updateCartCount();
 }
+
 
 
 // =========================================
@@ -192,7 +275,9 @@ function displayCart() {
             "cart-items"
         );
 
+
     if (!container) return;
+
 
 
     // EMPTY CART
@@ -216,10 +301,9 @@ function displayCart() {
 
                 <a
                     href="shop.html"
-                    class="button">
-
+                    class="button"
+                >
                     SHOP NOW
-
                 </a>
 
             </div>
@@ -227,15 +311,17 @@ function displayCart() {
         `;
 
 
-        const total =
+        const cartTotal =
             document.getElementById(
                 "cart-total"
             );
 
-        if (total) {
 
-            total.textContent =
+        if (cartTotal) {
+
+            cartTotal.textContent =
                 "0.00";
+
         }
 
 
@@ -244,16 +330,21 @@ function displayCart() {
                 "cart-total-bottom"
             );
 
+
         if (bottomTotal) {
 
             bottomTotal.textContent =
                 "0.00";
+
         }
 
 
         return;
     }
 
+
+
+    // CART WITH ITEMS
 
     let total = 0;
 
@@ -262,6 +353,7 @@ function displayCart() {
 
 
     cart.forEach(
+
         (item, index) => {
 
             const itemTotal =
@@ -269,7 +361,8 @@ function displayCart() {
                 item.quantity;
 
 
-            total += itemTotal;
+            total +=
+                itemTotal;
 
 
             const itemElement =
@@ -306,10 +399,9 @@ function displayCart() {
 
                     <button
                         class="quantity-button"
-                        onclick="changeQuantity(${index}, -1)">
-
+                        onclick="changeQuantity(${index}, -1)"
+                    >
                         −
-
                     </button>
 
 
@@ -320,10 +412,9 @@ function displayCart() {
 
                     <button
                         class="quantity-button"
-                        onclick="changeQuantity(${index}, 1)">
-
+                        onclick="changeQuantity(${index}, 1)"
+                    >
                         +
-
                     </button>
 
 
@@ -334,10 +425,9 @@ function displayCart() {
 
                     <button
                         class="remove-button"
-                        onclick="removeFromCart(${index})">
-
+                        onclick="removeFromCart(${index})"
+                    >
                         Remove
-
                     </button>
 
                 </div>
@@ -348,7 +438,9 @@ function displayCart() {
             container.appendChild(
                 itemElement
             );
+
         }
+
     );
 
 
@@ -362,6 +454,7 @@ function displayCart() {
 
         cartTotal.textContent =
             total.toFixed(2);
+
     }
 
 
@@ -375,8 +468,11 @@ function displayCart() {
 
         bottomTotal.textContent =
             total.toFixed(2);
+
     }
+
 }
+
 
 
 // =========================================
@@ -385,15 +481,19 @@ function displayCart() {
 
 function loadProductPage() {
 
-    const name =
+    const productName =
         document.getElementById(
             "product-name"
         );
 
 
-    // Not a product page
-    if (!name) return;
+    // Not on product page
 
+    if (!productName) return;
+
+
+
+    // GET PRODUCT FROM URL
 
     const params =
         new URLSearchParams(
@@ -413,50 +513,23 @@ function loadProductPage() {
     if (!product) return;
 
 
-    // Page title
+
+    // PAGE TITLE
 
     document.title =
         product.name +
         " — SET APART";
 
 
-    // Product name
 
-    name.textContent =
+    // PRODUCT NAME
+
+    productName.textContent =
         product.name;
 
 
-    // Product image text
 
-    const imageText =
-        document.getElementById(
-            "product-image-text"
-        );
-
-
-    if (imageText) {
-
-        imageText.textContent =
-            product.imageText;
-    }
-
-
-    // Product description
-
-    const description =
-        document.getElementById(
-            "product-description"
-        );
-
-
-    if (description) {
-
-        description.textContent =
-            product.description;
-    }
-
-
-    // Product price
+    // PRICE
 
     const price =
         document.querySelector(
@@ -469,10 +542,167 @@ function loadProductPage() {
         price.textContent =
             "$" +
             product.price;
+
     }
 
 
-    // Add button
+
+    // DESCRIPTION
+
+    const description =
+        document.getElementById(
+            "product-description"
+        );
+
+
+    if (description) {
+
+        description.textContent =
+            product.description;
+
+    }
+
+
+
+    // =====================================
+    // PRODUCT IMAGES
+    // =====================================
+
+    const mainImage =
+        document.getElementById(
+            "product-main-image"
+        );
+
+
+    const backThumb =
+        document.getElementById(
+            "product-thumb-back"
+        );
+
+
+    const frontThumb =
+        document.getElementById(
+            "product-thumb-front"
+        );
+
+
+    if (
+        mainImage &&
+        backThumb &&
+        frontThumb
+    ) {
+
+        // Starting images
+
+        mainImage.src =
+            product.backImage;
+
+
+        backThumb.src =
+            product.backImage;
+
+
+        frontThumb.src =
+            product.frontImage;
+
+
+
+        // BACK BUTTON
+
+        backThumb.onclick =
+            function () {
+
+                mainImage.src =
+                    product.backImage;
+
+
+                backThumb.classList.add(
+                    "active"
+                );
+
+
+                frontThumb.classList.remove(
+                    "active"
+                );
+
+            };
+
+
+
+        // FRONT BUTTON
+
+        frontThumb.onclick =
+            function () {
+
+                mainImage.src =
+                    product.frontImage;
+
+
+                frontThumb.classList.add(
+                    "active"
+                );
+
+
+                backThumb.classList.remove(
+                    "active"
+                );
+
+            };
+
+    }
+
+
+
+    // =====================================
+    // PRODUCT MESSAGE
+    // =====================================
+
+    const messageTitle =
+        document.getElementById(
+            "product-message-title"
+        );
+
+
+    if (messageTitle) {
+
+        messageTitle.innerHTML =
+            product.messageTitle;
+
+    }
+
+
+    const messageQuote =
+        document.getElementById(
+            "product-message-quote"
+        );
+
+
+    if (messageQuote) {
+
+        messageQuote.textContent =
+            product.messageQuote;
+
+    }
+
+
+    const messageReference =
+        document.getElementById(
+            "product-message-reference"
+        );
+
+
+    if (messageReference) {
+
+        messageReference.textContent =
+            product.messageReference;
+
+    }
+
+
+
+    // =====================================
+    // ADD TO CART BUTTON
+    // =====================================
 
     const addButton =
         document.getElementById(
@@ -499,6 +729,7 @@ function loadProductPage() {
     ) {
 
         return;
+
     }
 
 
@@ -515,23 +746,33 @@ function loadProductPage() {
                 );
 
 
-            // Don't add if no size
+            // NO SIZE SELECTED
+
             if (!size) {
 
                 sizeSelect.focus();
 
                 return;
+
             }
 
 
             addToCart(
+
                 product.name,
+
                 product.price,
+
                 size,
+
                 quantity
+
             );
+
         };
+
 }
+
 
 
 // =========================================
@@ -547,10 +788,13 @@ function setupShopButtons() {
 
 
     buttons.forEach(
+
         button => {
 
             button.addEventListener(
+
                 "click",
+
                 function () {
 
                     const name =
@@ -576,27 +820,37 @@ function setupShopButtons() {
                         sizeSelect.value;
 
 
-                    // Don't add without size
-
                     if (!size) {
 
                         sizeSelect.focus();
 
                         return;
+
                     }
 
 
                     addToCart(
+
                         name,
+
                         price,
+
                         size,
+
                         1
+
                     );
+
                 }
+
             );
+
         }
+
     );
+
 }
+
 
 
 // =========================================
@@ -605,43 +859,54 @@ function setupShopButtons() {
 
 function setupCheckout() {
 
-    const button =
+    const checkoutButton =
         document.getElementById(
             "checkout-button"
         );
 
 
-    if (!button) return;
+    if (!checkoutButton) return;
 
 
-    button.addEventListener(
+    checkoutButton.addEventListener(
+
         "click",
+
         function () {
 
-            if (cart.length === 0) {
+            if (
+                cart.length === 0
+            ) {
 
                 alert(
                     "Your cart is empty."
                 );
 
                 return;
+
             }
 
 
             alert(
                 "Checkout will be connected to a secure payment system next!"
             );
+
         }
+
     );
+
 }
 
 
+
 // =========================================
-// START EVERYTHING
+// START WEBSITE
 // =========================================
 
 document.addEventListener(
+
     "DOMContentLoaded",
+
     function () {
 
         updateCartCount();
@@ -655,4 +920,5 @@ document.addEventListener(
         loadProductPage();
 
     }
+
 );
