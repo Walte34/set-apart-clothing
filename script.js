@@ -144,7 +144,6 @@ function addToCart(
     size,
     quantity = 1
 ) {
-
     const existingItem = cart.find(
         item =>
             item.name === name &&
@@ -152,11 +151,8 @@ function addToCart(
     );
 
     if (existingItem) {
-
         existingItem.quantity += quantity;
-
     } else {
-
         cart.push({
             name: name,
             price: price,
@@ -166,7 +162,6 @@ function addToCart(
     }
 
     saveCart();
-
     updateCartCount();
 
     showCartNotification(
@@ -180,6 +175,14 @@ function addToCart(
 // REMOVE ITEM
 
 function removeFromCart(index) {
+    cart.splice(index, 1);
+
+    saveCart();
+
+    displayCart();
+
+    updateCartCount();
+}
 
     cart.splice(index, 1);
 
