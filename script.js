@@ -54,13 +54,74 @@ function updateCartCount() {
 
 function showCartNotification(name, size, quantity) {
 
-    // Remove any existing notification
     const oldNotification =
         document.getElementById("cart-notification");
 
     if (oldNotification) {
         oldNotification.remove();
     }
+
+    const isError =
+        name === "PLEASE SELECT A SIZE";
+
+    const notification =
+        document.createElement("div");
+
+    notification.id =
+        "cart-notification";
+
+    notification.innerHTML = `
+        <div class="cart-notification-icon">
+            ${isError ? "!" : "✓"}
+        </div>
+
+        <div class="cart-notification-content">
+
+            <strong>
+                ${isError ? "SIZE REQUIRED" : "ADDED TO CART"}
+            </strong>
+
+            <span>
+                ${isError
+                    ? "Please choose a size before adding this item."
+                    : name}
+            </span>
+
+            ${
+                isError
+                    ? ""
+                    : `<small>Size ${size} • Qty ${quantity}</small>`
+            }
+
+        </div>
+
+        ${
+            isError
+                ? ""
+                : `<a href="cart.html" class="cart-notification-button">
+                    VIEW CART
+                   </a>`
+        }
+    `;
+
+    document.body.appendChild(
+        notification
+    );
+
+    setTimeout(() => {
+        notification.classList.add("show");
+    }, 10);
+
+    setTimeout(() => {
+
+        notification.classList.remove("show");
+
+        setTimeout(() => {
+            notification.remove();
+        }, 500);
+
+    }, 3000);
+}
 
 
     // Create notification
@@ -454,14 +515,16 @@ function loadProductPage() {
             );
 
 
-        if (!size) {
+       if (!size) {
 
-            alert(
-                "Please choose a size first."
-            );
+    showCartNotification(
+        "PLEASE SELECT A SIZE",
+        "Choose a size before adding to cart.",
+        ""
+    );
 
-            return;
-        }
+    return;
+}
 
 
         addToCart(
@@ -507,14 +570,16 @@ function setupShopButtons() {
                     sizeSelect.value;
 
 
-                if (!size) {
+if (!size) {
 
-                    alert(
-                        "Please choose a size first."
-                    );
+    showCartNotification(
+        "PLEASE SELECT A SIZE",
+        "Choose a size before adding to cart.",
+        ""
+    );
 
-                    return;
-                }
+    return;
+}
 
 
                 addToCart(
