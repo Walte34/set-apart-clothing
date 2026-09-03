@@ -10,6 +10,10 @@ let cart =
 
 const products = {
 
+    // =========================================
+    // FEAR NOT
+    // =========================================
+
     "fear-not": {
         name: "FEAR NOT TEE",
         price: 30,
@@ -33,6 +37,10 @@ const products = {
             "ISAIAH 41:10"
     },
 
+
+    // =========================================
+    // ARMOR OF GOD
+    // =========================================
 
     "armor-of-god": {
         name: "ARMOR OF GOD TEE",
@@ -58,6 +66,10 @@ const products = {
     },
 
 
+    // =========================================
+    // STAND FIRM
+    // =========================================
+
     "stand-firm": {
         name: "STAND FIRM TEE",
         price: 30,
@@ -81,6 +93,10 @@ const products = {
             "1 CORINTHIANS 16:13"
     },
 
+
+    // =========================================
+    // BE STRONG — JOSHUA 1:9
+    // =========================================
 
     "joshua-1-9": {
         name: "BE STRONG TEE",
@@ -443,13 +459,23 @@ function loadProductPage() {
         );
 
     const productID =
-        params.get("product") ||
-        "fear-not";
+        params.get("product");
 
     const product =
         products[productID];
 
-    if (!product) return;
+
+    // If the product does not exist,
+    // go back to the shop instead of
+    // accidentally showing Fear Not.
+
+    if (!product) {
+
+        window.location.href =
+            "shop.html";
+
+        return;
+    }
 
 
     document.title =
@@ -508,11 +534,20 @@ function loadProductPage() {
         mainImage.src =
             product.backImage;
 
+        mainImage.alt =
+            product.name + " Back";
+
         backThumb.src =
             product.backImage;
 
+        backThumb.alt =
+            product.name + " Back";
+
         frontThumb.src =
             product.frontImage;
+
+        frontThumb.alt =
+            product.name + " Front";
 
 
         backThumb.onclick =
@@ -520,6 +555,9 @@ function loadProductPage() {
 
                 mainImage.src =
                     product.backImage;
+
+                mainImage.alt =
+                    product.name + " Back";
 
                 backThumb.classList.add(
                     "active"
@@ -536,6 +574,9 @@ function loadProductPage() {
 
                 mainImage.src =
                     product.frontImage;
+
+                mainImage.alt =
+                    product.name + " Front";
 
                 frontThumb.classList.add(
                     "active"
