@@ -55,12 +55,38 @@ const products = {
 
         messageReference:
             "EPHESIANS 6:11"
+    },
+
+
+    "stand-firm": {
+        name: "STAND FIRM TEE",
+        price: 30,
+
+        backImage:
+            "images1/stand-firm-back.png",
+
+        frontImage:
+            "images1/stand-firm-front.png",
+
+        description:
+            "A bold faith-driven heavyweight tee inspired by 1 Corinthians 16:13. Designed as a reminder to stay alert, stand firm in the faith, and be strong.",
+
+        messageTitle:
+            "STAND<br><span>FIRM.</span>",
+
+        messageQuote:
+            "“Stand firm in the faith.”",
+
+        messageReference:
+            "1 CORINTHIANS 16:13"
     }
 
 };
 
 
+// =========================================
 // SAVE CART
+// =========================================
 
 function saveCart() {
 
@@ -71,7 +97,9 @@ function saveCart() {
 }
 
 
+// =========================================
 // UPDATE CART COUNT
+// =========================================
 
 function updateCartCount() {
 
@@ -94,7 +122,9 @@ function updateCartCount() {
 }
 
 
+// =========================================
 // CART COUNT ANIMATION
+// =========================================
 
 function animateCartCount() {
 
@@ -117,7 +147,9 @@ function animateCartCount() {
 }
 
 
+// =========================================
 // ADD TO CART
+// =========================================
 
 function addToCart(
     name,
@@ -156,7 +188,9 @@ function addToCart(
 }
 
 
+// =========================================
 // REMOVE FROM CART
+// =========================================
 
 function removeFromCart(index) {
 
@@ -170,7 +204,9 @@ function removeFromCart(index) {
 }
 
 
+// =========================================
 // CHANGE QUANTITY
+// =========================================
 
 function changeQuantity(
     index,
@@ -193,7 +229,9 @@ function changeQuantity(
 }
 
 
+// =========================================
 // DISPLAY CART
+// =========================================
 
 function displayCart() {
 
@@ -361,7 +399,9 @@ function displayCart() {
 }
 
 
+// =========================================
 // LOAD PRODUCT PAGE
+// =========================================
 
 function loadProductPage() {
 
@@ -570,7 +610,9 @@ function loadProductPage() {
 }
 
 
+// =========================================
 // SHOP PAGE BUTTONS
+// =========================================
 
 function setupShopButtons() {
 
@@ -624,7 +666,9 @@ function setupShopButtons() {
 }
 
 
+// =========================================
 // CHECKOUT
+// =========================================
 
 function setupCheckout() {
 
@@ -656,7 +700,9 @@ function setupCheckout() {
 }
 
 
+// =========================================
 // START WEBSITE
+// =========================================
 
 document.addEventListener(
     "DOMContentLoaded",
