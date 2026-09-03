@@ -79,6 +79,30 @@ const products = {
 
         messageReference:
             "1 CORINTHIANS 16:13"
+    },
+
+
+    "joshua-1-9": {
+        name: "BE STRONG TEE",
+        price: 30,
+
+        backImage:
+            "images1/joshua-back.webp",
+
+        frontImage:
+            "images1/joshua-front.webp",
+
+        description:
+            "A faith-driven heavyweight tee inspired by Joshua 1:9. A reminder to be strong and courageous, knowing God is with you wherever you go.",
+
+        messageTitle:
+            "BE STRONG<br><span>AND COURAGEOUS.</span>",
+
+        messageQuote:
+            "“Be strong and courageous.”",
+
+        messageReference:
+            "JOSHUA 1:9"
     }
 
 };
